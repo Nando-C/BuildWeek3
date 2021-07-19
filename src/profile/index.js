@@ -89,7 +89,7 @@ profilesRouter.delete('/:profileId', async (req, res, next) => {
 })
 
 // ===============  UPLOADS IMAGE TO profile =======================
-profilesRouter.post('/:profileId/uploadImage', uploadOnCloudinary.single('image'), async (req, res,next) => {
+profilesRouter.post('/:profileId/picture', uploadOnCloudinary.single('image'), async (req, res,next) => {
     try {
         const profileId = req.params.profileId
         // const profile = await ProfileModel.findById(profileId)
