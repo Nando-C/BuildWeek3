@@ -3,6 +3,7 @@ import listEndpoints from 'express-list-endpoints'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import { badRequestMiddleware, catchAllErrorsMiddleware, notFoundMiddleware } from './errorMiddlewares.js'
+import experienceRouter from './profile/index.js'
 
 
 
@@ -15,7 +16,7 @@ server.use(cors())
 server.use(express.json())
 
 // ===================== ROUTES  =================================
-
+server.use("/experiences", experienceRouter)
 // ===================== ERROR HANDLERS ==========================
 server.use(notFoundMiddleware)
 server.use(badRequestMiddleware)
