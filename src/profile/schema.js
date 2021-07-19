@@ -1,47 +1,57 @@
-import mongoose from "mongoose"
+import mongoose from 'mongoose'
 
 const { Schema, model } = mongoose
 
-const ExperienceSchema = new Schema(
-  {
-    role: {
-      type: String,
-      required: true,
+const ProfileSchema = new Schema (
+    {
+        name: {
+            type: String,
+            required: true
+        },
+        surname: {
+            type: String,
+            required: true
+        },
+        email: {
+            type: String,
+            required: true
+        },
+        bio: {
+            type: String,
+            required: true
+        },
+        title: {
+            type: String,
+            required: true
+        },
+        area: {
+            type: String,
+            required: true
+        },
+        image: {
+            type: String,
+            required: true,
+            default:'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'
+        },
+        username: {
+            type: String,
+            required: true
+        },
     },
-    company: {
-      type: String,
-      required: true,
-    },
-    startDate: {
-      type: Date,
-      required: true,
-    },
-    endDate:{
-      type: Date,
-    },
-    description:{
-      type: String,
-      required: true,
-    },
-    area:{
-      type: String,
-      required: true,
-    },
-    username:{
-      type: String,
-      required: true,
-    },
-    image:{
-      type: String,
-      required: true,
-    },
-  },
-  {
-    timestamps: true, // adding createdAt and modifiedAt automatically
-  }
+    {
+        timestamps: true,
+    }
 )
 
-export default model("Experiences", ExperienceSchema) // bounded to "users" collection
+ProfileSchema.static('findProfiles', async function (query) {
+    const total = await this.countDocuments(query.criteria)
+    const profiles = await this.find(query.criteria, query.options.fields)
+        .skip(query.options.skip)
+        .limit(query.options.limit)
+        .sort(query.options.sort)
 
-// seperate crud for embeded values check purchase history in riccardos code
+    return { total, profiles }
+})
+
+export default model('Profile', ProfileSchema)
 
