@@ -23,7 +23,7 @@ postRouter.post('/', async (req, res, next) => {
 postRouter.get('/', async (req, res, next) => {
   try {
     const posts = await PostModel.find();
-    res.send(posts);
+    res.send({ posts });
   } catch (error) {
     console.log(error);
     next('error');

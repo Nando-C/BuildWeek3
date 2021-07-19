@@ -9,7 +9,7 @@ const PostSchema = new Schema(
       required: true,
     },
 
-    // user: [{ type: Schema.Types.objectId, require: true, ref: 'Profile' }],
+    user: [{ type: Schema.Types.ObjectId, require: true, ref: 'Profile' }],
     //reference to image same way
   },
   {
