@@ -4,7 +4,7 @@ import listEndpoints from 'express-list-endpoints'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import { badRequestMiddleware, catchAllErrorsMiddleware, notFoundMiddleware } from './errorMiddlewares.js'
-import experienceRouter from './profile/index.js'
+import experienceRouter from './experiences/index.js'
 import profilesRouter from './profile/index.js'
 import postRouter from './post/index.js';
 
