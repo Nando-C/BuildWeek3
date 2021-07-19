@@ -22,27 +22,67 @@ postRouter.post('/', async (req, res, next) => {
 });
 postRouter.get('/', async (req, res, next) => {
   try {
+    const posts = await PostModel.find();
+    res.send(posts);
   } catch (error) {
     console.log(error);
     next('error');
   }
 });
-postRouter.get('/:id', async (req, res, next) => {
+postRouter.get('/:postId', async (req, res, next) => {
   try {
+    const postId = req.params.postId;
+    const post = await PostModel.findById(postId);
+
+    if (posts) {
+      res.send.apply(posts);
+    } else {
+      next(createError(404, `post with id ${postId} not found`));
+    }
   } catch (error) {
     console.log(error);
     next('error');
   }
 });
-postRouter.put('/:id', async (req, res, next) => {
+postRouter.put('/:postId', async (req, res, next) => {
   try {
+    const postId = req.params.postId;
+
+    const updatedPost = await PostModel.findByIdAndUpdate(postId, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (updatedPost) {
+      res.send(updatedPost);
+    } else {
+      next(
+        createError(
+          500,
+          `An error occurred while updating post ${req.params.postId}`
+        )
+      );
+    }
   } catch (error) {
     console.log(error);
     next('error');
   }
 });
-postRouter.delete('/:id', async (req, res, next) => {
+postRouter.delete('/:postId', async (req, res, next) => {
   try {
+    const postId = req.params.postId;
+    const deletePost = await PostModel.findByIdAndDelete(postId);
+
+    if (deletePost) {
+      res.status(204).send();
+    } else {
+      next(
+        createError(
+          500,
+          `An error occurred while deleting post ${req.params.postId}`
+        )
+      );
+    }
   } catch (error) {
     console.log(error);
     next('error');
