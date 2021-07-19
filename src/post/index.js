@@ -1,5 +1,6 @@
-import express from 'express';
+import express, { query } from 'express';
 import createError from 'http-errors';
+import q2m from 'query-to-mongo';
 
 import PostModel from './schema.js';
 
@@ -16,14 +17,19 @@ postRouter.post('/', async (req, res, next) => {
       next(createError(400, error));
     } else {
       console.log(error);
-      next(createError(500, 'Error occcured while creating new post'));
+      next(createError(500, 'Error occured while creating new post'));
     }
   }
 });
 postRouter.get('/', async (req, res, next) => {
   try {
-    const posts = await PostModel.find();
-    res.send({ posts });
+    const query = q2m(req.query);
+
+    const { total, posts } = await PostModel.findPostUser(query);
+    res.send({ links: query.links('/posts', total), total, posts });
+
+    // const posts = await PostModel.find();
+    // res.send({ posts });
   } catch (error) {
     console.log(error);
     next('error');
