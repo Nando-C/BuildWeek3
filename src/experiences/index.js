@@ -1,101 +1,113 @@
-import express from "express"
-import createError from "http-errors"
+import express from 'express'
+import ProfileModel from './schema.js'
+import createError from 'http-errors'
+import q2m from 'query-to-mongo'
+import { uploadOnCloudinary } from '../../settings/cloudinary.js'
 
-import ExperienceModel from "./schema.js"
+const profilesRouter = express.Router()
 
-const experienceRouter = express.Router()
-
-
-// POST EXPERIENCES
-
-experienceRouter.post("/", async (req, res, next) => {
+// ===============  CREATES NEW PROFILE =======================
+profilesRouter.post('/', async (req, res, next) => {
     try {
-  
-      const newExperience = new ExperienceModel(req.body)
-      const { _id } = await newExperience.save()
-  
-      res.status(201).send({ _id })
-  
+        const newProfile = new ProfileModel(req.body)
+        const { _id } = await newProfile.save()
+
+        res.status(201).send({ _id })
+
     } catch (error) {
-  
-      if (error.name === "ValidationError") {
-  
-        next(createError(400, error))
-  
-      } else {
-  
+        if(error.name === "validationError") {
+            next(createError(400, error))
+        } else {
+            console.log(error)
+            next(createError(500, "An Error ocurred while creating a new profile"))
+        }
+    }
+})
+
+// ===============  RETURNS PROFILE LIST =======================
+profilesRouter.get('/', async (req, res, next) => {
+    try {
+        const query = q2m(req.query)
+
+        const { total, profiles } = await ProfileModel.findProfiles(query)
+
+        res.send({ links: query.links('/profiles', total), total, profiles })
+    } catch (error) {
+        next(createError(500, "An Error ocurred while getting the list of profiles"))
+    }
+})
+
+// ===============  RETURNS SINGLE PROFILE =======================
+profilesRouter.get('/:profileId', async (req, res, next) => {
+    try {
+        const profileId = req.params.profileId
+        const profile = await ProfileModel.findById(profileId)
+
+        if(profile) {
+            res.send(profile)
+        } else {
+            next(createError(404, `Profile with _id ${profileId} Not Found!`))
+        }
+    } catch (error) {
+        next(createError(500, "An Error ocurred while getting the profile"))
+    }
+})
+
+// ===============  UPDATES A PROFILE =======================
+profilesRouter.put('/:profileId', async (req, res, next) => {
+    try {
+        const profileId = req.params.profileId
+        const modifiedProfile = await ProfileModel.findByIdAndUpdate(profileId, req.body, {
+            new: true,
+            runValidators: true,
+        } )
+
+        if(modifiedProfile) {
+            res.send(modifiedProfile)
+        } else {
+            next(createError(404, `Profile with _id ${profileId} Not Found!`))
+        }
+    } catch (error) {
+        next(createError(500, `An Error ocurred while updating the profile ${req.params.profileId}`))
+    }
+})
+
+// ===============  DELETES A PROFILE =======================
+profilesRouter.delete('/:profileId', async (req, res, next) => {
+    try {
+        const profileId = req.params.profileId
+        const deletedProfile = await ProfileModel.findByIdAndDelete(profileId)
+
+        if (deletedProfile) {
+            res.status(204).send()
+        } else {
+            next(createError(404, `Profile with _id ${profileId} Not Found!`))
+        }
+    } catch (error) {
+        next(createError(500, `An Error ocurred while deleting the profile ${req.params.profileId}`))
+    }
+})
+
+// ===============  UPLOADS IMAGE TO profile =======================
+profilesRouter.post('/:profileId/uploadImage', uploadOnCloudinary.single('image'), async (req, res,next) => {
+    try {
+        const profileId = req.params.profileId
+        // const profile = await ProfileModel.findById(profileId)
+
+        const modifiedProfile = await ProfileModel.findByIdAndUpdate(
+            profileId, 
+            {image: req.file.path}, 
+            {new: true} 
+        )
+        if(modifiedProfile) {
+            res.send(modifiedProfile)
+        } else {
+            next(createError(404, `Profile with _id ${profileId} Not Found!`))
+        }
+    } catch (error) {
         console.log(error)
-  
-        next(createError(500, "An error occurred while creating new Experience"))
-      }
+        next(createError(500, `An Error ocurred while uploading Image to profile with _id ${profileId}`))
     }
-  })
-  
-  experienceRouter.get("/", async (req, res, next) => {
-    try {
-  
-      const experiences = await experienceModel.find()
-  
-      res.send(experiences)
-  
-    } catch (error) {
-  
-      next(createError(500, "An error occurred while getting experiences"))
-  
-    }
-  })
-  
-  experienceRouter.get("/:expId", async (req, res, next) => {
-    try {
-  
-      const expId = req.params.expId
-  
-      const experience = await experienceModel.findById(expId)
-  
-      if (experience) {
-        res.send(experience)
-      } else {
-        next(createError(404, `Experience with _id ${expId} not found!`))
-      }
-    } catch (error) {
-      next(createError(500, "An error occurred while getting experiences"))
-    }
-  })
-  
-  experienceRouter.delete("/:expId", async (req, res, next) => {
-    try {
-      const expId = req.params.expId
-  
-      const deletedExperience = await AuthorModel.findByIdAndDelete(expId)
-  
-      if (deletedExperience) {
-        res.status(204).send()
-      } else {
-        next(createError(404, `Experience with _id ${expId} not found!`))
-      }
-    } catch (error) {
-      next(createError(500, `An error occurred while deleting experience ${req.params.expId}`))
-    }
-  })
-  
-  experienceRouter.put("/:expId", async (req, res, next) => {
-    try {
-      const expId = req.params.expId
-  
-      const updatedExperience = await AuthorModel.findByIdAndUpdate(expId, req.body, {
-        new: true, // to use existing record n
-        runValidators: true,
-      })
-  
-      if (updatedExperience) {
-        res.send(updatedExperience)
-      } else {
-        next(createError(404, `Author with _id ${expId} not found!`))
-      }
-    } catch (error) {
-      next(createError(500, `An error occurred while updating experience ${req.params.expId}`))
-    }
-  })
-  
+})
 
-export default experienceRouter
+export default profilesRouter
