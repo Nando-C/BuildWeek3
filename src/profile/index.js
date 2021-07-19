@@ -26,7 +26,7 @@ experienceRouter.post("/", async (req, res, next) => {
   
         console.log(error)
   
-        next(createError(500, "An error occurred while creating new blog"))
+        next(createError(500, "An error occurred while creating new Experience"))
       }
     }
   })
