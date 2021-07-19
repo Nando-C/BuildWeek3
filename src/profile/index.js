@@ -1,56 +1,113 @@
-import mongoose from 'mongoose'
+import express from 'express'
+import ProfileModel from './schema.js'
+import createError from 'http-errors'
+import q2m from 'query-to-mongo'
+import { uploadOnCloudinary } from '../../settings/cloudinary.js'
 
-const { Schema, model } = mongoose
+const profilesRouter = express.Router()
 
-const ProfileSchema = new Schema (
-    {
-        name: {
-            type: String,
-            required: true
-        },
-        surname: {
-            type: String,
-            required: true
-        },
-        email: {
-            type: String,
-            required: true
-        },
-        bio: {
-            type: String,
-            required: true
-        },
-        title: {
-            type: String,
-            required: true
-        },
-        area: {
-            type: String,
-            required: true
-        },
-        image: {
-            type: String,
-            required: true,
-            default:'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'
-        },
-        username: {
-            type: String,
-            required: true
-        },
-    },
-    {
-        timestamps: true,
+// ===============  CREATES NEW PROFILE =======================
+profilesRouter.post('/', async (req, res, next) => {
+    try {
+        const newProfile = new ProfileModel(req.body)
+        const { _id } = await newProfile.save()
+
+        res.status(201).send({ _id })
+
+    } catch (error) {
+        if(error.name === "validationError") {
+            next(createError(400, error))
+        } else {
+            console.log(error)
+            next(createError(500, "An Error ocurred while creating a new profile"))
+        }
     }
-)
-
-ProfileSchema.static('findProfiles', async function (query) {
-    const total = await this.countDocuments(query.criteria)
-    const profiles = await this.find(query.criteria, query.options.fields)
-        .skip(query.options.skip)
-        .limit(query.options.limit)
-        .sort(query.options.sort)
-
-    return { total, profiles }
 })
 
-export default model('Profile', ProfileSchema)
+// ===============  RETURNS PROFILE LIST =======================
+profilesRouter.get('/', async (req, res, next) => {
+    try {
+        const query = q2m(req.query)
+
+        const { total, profiles } = await ProfileModel.findProfiles(query)
+
+        res.send({ links: query.links('/profiles', total), total, profiles })
+    } catch (error) {
+        next(createError(500, "An Error ocurred while getting the list of profiles"))
+    }
+})
+
+// ===============  RETURNS SINGLE PROFILE =======================
+profilesRouter.get('/:profileId', async (req, res, next) => {
+    try {
+        const profileId = req.params.profileId
+        const profile = await ProfileModel.findById(profileId)
+
+        if(profile) {
+            res.send(profile)
+        } else {
+            next(createError(404, `Profile with _id ${profileId} Not Found!`))
+        }
+    } catch (error) {
+        next(createError(500, "An Error ocurred while getting the profile"))
+    }
+})
+
+// ===============  UPDATES A PROFILE =======================
+profilesRouter.put('/:profileId', async (req, res, next) => {
+    try {
+        const profileId = req.params.profileId
+        const modifiedProfile = await ProfileModel.findByIdAndUpdate(profileId, req.body, {
+            new: true,
+            runValidators: true,
+        } )
+
+        if(modifiedProfile) {
+            res.send(modifiedProfile)
+        } else {
+            next(createError(404, `Profile with _id ${profileId} Not Found!`))
+        }
+    } catch (error) {
+        next(createError(500, `An Error ocurred while updating the profile ${req.params.profileId}`))
+    }
+})
+
+// ===============  DELETES A PROFILE =======================
+profilesRouter.delete('/:profileId', async (req, res, next) => {
+    try {
+        const profileId = req.params.profileId
+        const deletedProfile = await ProfileModel.findByIdAndDelete(profileId)
+
+        if (deletedProfile) {
+            res.status(204).send()
+        } else {
+            next(createError(404, `Profile with _id ${profileId} Not Found!`))
+        }
+    } catch (error) {
+        next(createError(500, `An Error ocurred while deleting the profile ${req.params.profileId}`))
+    }
+})
+
+// ===============  UPLOADS IMAGE TO profile =======================
+profilesRouter.post('/:profileId/picture', uploadOnCloudinary.single('image'), async (req, res,next) => {
+    try {
+        const profileId = req.params.profileId
+        // const profile = await ProfileModel.findById(profileId)
+
+        const modifiedProfile = await ProfileModel.findByIdAndUpdate(
+            profileId, 
+            {image: req.file.path}, 
+            {new: true} 
+        )
+        if(modifiedProfile) {
+            res.send(modifiedProfile)
+        } else {
+            next(createError(404, `Profile with _id ${profileId} Not Found!`))
+        }
+    } catch (error) {
+        console.log(error)
+        next(createError(500, `An Error ocurred while uploading Image to profile with _id ${profileId}`))
+    }
+})
+
+export default profilesRouter
