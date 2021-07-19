@@ -31,26 +31,30 @@ export const generatePDFReadableStream = async (profile) => {
             {
                 text: `${profile.name} ${profile.surname}`,
                 style: 'header',
+                alignment: 'center',
             },
             {
                 text: `${profile.title}`,
                 style: 'subheader',
+                alignment: 'center',
             },
             {
                 style: 'tableExample',
                 table: {
                     widths: ['*', 10, '*'],
                     body: [
-                        [ {text: '', style: 'tableHeaders'}, '', {text: 'Information', style: 'tableHeaders'}],
+                        [ {text: '', style: 'tableHeaders'}, '', {text: '', style: 'tableHeaders'}],
                         [
                             profileImg ,
                             '',
                             {
                                 text: [
-                                    {text: `email: ${profile.email}\n\n`},
-                                    {text: `Area: ${profile.area}\n\n`},
-                                    {text: `Title: ${profile.title}\n\n`},
-                                    {text: `Bio: ${profile.bio}\n\n`},
+                                    {text: `Name:\n ${profile.name}\n\n`},
+                                    {text: `Surname:\n ${profile.surname}\n\n`},
+                                    {text: `Title:\n ${profile.title}\n\n`},
+                                    {text: `email:\n ${profile.email}\n\n`},
+                                    {text: `Area:\n ${profile.area}\n\n`},
+                                    {text: `Bio:\n ${profile.bio}\n\n`},
                                 ]
                             }
                         ]
