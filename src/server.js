@@ -7,7 +7,7 @@ import {
   catchAllErrorsMiddleware,
   notFoundMiddleware,
 } from './errorMiddlewares.js';
-import experienceRouter from './profile/index.js';
+// import experienceRouter from './profile/index.js';
 import profilesRouter from './profile/index.js';
 import postRouter from './post/index.js';
 
@@ -21,7 +21,7 @@ server.use(express.json());
 
 // ===================== ROUTES  =================================
 
-server.use('/experiences', experienceRouter);
+// server.use('/experiences', experienceRouter);
 server.use('/profile', profilesRouter);
 server.use('/posts', postRouter);
 

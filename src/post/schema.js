@@ -9,7 +9,7 @@ const PostSchema = new Schema(
       required: true,
     },
 
-    user: [{ type: Schema.Types.ObjectId, require: true, ref: 'Profile' }],
+    user: [{ type: Schema.Types.ObjectId, required: true, ref: 'Profile' }],
     image: { type: String, default: 'https://picsum.photos/200/300' },
   },
   {
