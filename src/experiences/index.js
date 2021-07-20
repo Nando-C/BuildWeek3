@@ -24,7 +24,7 @@ experienceRouter.post('/:userName/experiences', async (req, res, next) => {
         }
 
     }
-  }
+  
 });
 
 // ===============  RETURNS PROFILE LIST =======================
@@ -74,7 +74,6 @@ experienceRouter.put('/:userName/experiences/:expId', async (req, res, next) => 
             next(createError(404, `Experience with _id ${expId} Not Found!`))
 
         }
-      );
 
       if (modifiedExperience) {
         res.send(modifiedExperience);
