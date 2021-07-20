@@ -1,15 +1,12 @@
-import express from 'express';
-import listEndpoints from 'express-list-endpoints';
-import cors from 'cors';
-import mongoose from 'mongoose';
-import {
-  badRequestMiddleware,
-  catchAllErrorsMiddleware,
-  notFoundMiddleware,
-} from './errorMiddlewares.js';
-// import experienceRouter from './profile/index.js';
-import profilesRouter from './profile/index.js';
+
+import express from 'express'
+import listEndpoints from 'express-list-endpoints'
+import cors from 'cors'
+import mongoose from 'mongoose'
+import { badRequestMiddleware, catchAllErrorsMiddleware, notFoundMiddleware } from './errorMiddlewares.js'
+import profilesRouter from './profile/index.js'
 import postRouter from './post/index.js';
+import experiencesRouter from './experiences/index.js';
 
 const port = process.env.PORT || 3001;
 
@@ -21,9 +18,9 @@ server.use(express.json());
 
 // ===================== ROUTES  =================================
 
-// server.use('/experiences', experienceRouter);
-server.use('/profile', profilesRouter);
-server.use('/posts', postRouter);
+server.use('/profile', profilesRouter)
+server.use('/posts', postRouter)
+server.use('/profile', experiencesRouter);
 
 // ===================== ERROR HANDLERS ==========================
 server.use(notFoundMiddleware);
