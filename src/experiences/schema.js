@@ -2,29 +2,33 @@ import mongoose from 'mongoose'
 
 const { Schema, model } = mongoose
 
-const ProfileSchema = new Schema (
+const ExperienceSchema = new Schema (
     {
-        name: {
+        role: {
             type: String,
             required: true
         },
-        surname: {
+        company: {
             type: String,
             required: true
         },
-        email: {
+        startDate: {
+            type: Date,
+            required: true
+        },
+        endDate: {
             type: String,
             required: true
         },
-        bio: {
-            type: String,
-            required: true
-        },
-        title: {
+        description: {
             type: String,
             required: true
         },
         area: {
+            type: String,
+            required: true
+        },
+        username: {
             type: String,
             required: true
         },
@@ -33,25 +37,23 @@ const ProfileSchema = new Schema (
             required: true,
             default:'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png'
         },
-        username: [{
-            type: Schema.Types.String,
-            required: true,
-            ref: 'Profile'
-        }],
     },
     {
         timestamps: true,
     }
 )
 
-ProfileSchema.static('findProfiles', async function (query) {
+ExperienceSchema.static('findExperiences', async function (query) {
     const total = await this.countDocuments(query.criteria)
-    const profiles = await this.find(query.criteria, query.options.fields)
+    const experiences = await this.find(query.criteria, query.options.fields)
         .skip(query.options.skip)
         .limit(query.options.limit)
         .sort(query.options.sort)
 
-    return { total, profiles }
+    return { total, experiences }
 })
 
-export default model('Profile', ProfileSchema)
+
+
+export default model('experiences', ExperienceSchema)
+
