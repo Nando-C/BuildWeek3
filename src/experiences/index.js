@@ -1,3 +1,4 @@
+
 import express from 'express'
 import ExperienceModel from './schema.js'
 import createError from 'http-errors'
@@ -21,8 +22,10 @@ experienceRouter.post('/:userName/experiences', async (req, res, next) => {
             console.log(error)
             next(createError(500, "An Error ocurred while creating a new experience"))
         }
+
     }
-})
+  }
+});
 
 // ===============  RETURNS PROFILE LIST =======================
 experienceRouter.get('/:userName/experiences', async (req, res, next) => {
@@ -48,12 +51,15 @@ experienceRouter.get('/:userName/experiences/:expId', async (req, res, next) => 
         } else {
             next(createError(404, `Experience with _id ${expId} Not Found!`))
         }
+
     } catch (error) {
-        next(createError(500, "An Error ocurred while getting the profile"))
+      next(createError(500, 'An Error ocurred while getting the profile'));
     }
-})
+  }
+);
 
 // ===============  UPDATES A PROFILE =======================
+
 experienceRouter.put('/:userName/experiences/:expId', async (req, res, next) => {
     try {
         const expId = req.params.expId
@@ -66,13 +72,25 @@ experienceRouter.put('/:userName/experiences/:expId', async (req, res, next) => 
             res.send(modifiedExperience)
         } else {
             next(createError(404, `Experience with _id ${expId} Not Found!`))
+
         }
+      );
+
+      if (modifiedExperience) {
+        res.send(modifiedExperience);
+      } else {
+        next(createError(404, `Experience with _id ${expId} Not Found!`));
+      }
     } catch (error) {
+
         next(createError(500, `An Error ocurred while updating the experience ${req.params.expId}`))
+
     }
-})
+  }
+);
 
 // ===============  DELETES A PROFILE ====================expId===
+
 experienceRouter.delete('/:userName/experiences/:expId', async (req, res, next) => {
     try {
         const expId = req.params.expId
@@ -85,10 +103,13 @@ experienceRouter.delete('/:userName/experiences/:expId', async (req, res, next) 
         }
     } catch (error) {
         next(createError(500, `An Error ocurred while deleting the experience ${req.params.epxId}`))
+
     }
-})
+  }
+);
 
 // ===============  UPLOADS IMAGE TO profile =======================
+
 experienceRouter.post('/:userName/experiences/:expId/picture', uploadOnCloudinary.single('image'), async (req, res,next) => {
     try {
         const expId = req.params.expId
@@ -107,7 +128,10 @@ experienceRouter.post('/:userName/experiences/:expId/picture', uploadOnCloudinar
     } catch (error) {
         console.log(error)
         next(createError(500, `An Error ocurred while uploading Image to experience with _id ${expId}`))
+
     }
-})
+  }
+);
 
 export default experienceRouter
+

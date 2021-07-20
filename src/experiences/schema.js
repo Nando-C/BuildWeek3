@@ -1,6 +1,6 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
-const { Schema, model } = mongoose
+const { Schema, model } = mongoose;
 
 const ExperienceSchema = new Schema (
     {
@@ -52,8 +52,6 @@ ExperienceSchema.static('findExperiences', async function (query) {
 
     return { total, experiences }
 })
-
-
 
 export default model('experiences', ExperienceSchema)
 
