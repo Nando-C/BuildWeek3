@@ -1,4 +1,7 @@
 import express, { query } from 'express';
+import mongoose from 'mongoose';
+import ProfileModel from '../profile/schema.js';
+
 import createError from 'http-errors';
 import q2m from 'query-to-mongo';
 import { uploadOnCloudinary } from '../../settings/cloudinary.js';
@@ -60,6 +63,15 @@ postRouter.get('/', async (req, res, next) => {
     const query = q2m(req.query);
 
     const { total, posts } = await PostModel.findPostUser(query);
+
+    // const total = await PostModel.countDocuments(query.criteria);
+    // const posts = await PostModel.find(query.criteria, query.options.fields)
+    //   .skip(query.options.skip)
+    //   .limit(query.options.limit)
+    //   .sort(query.options.sort)
+    //   .populate('user')
+    //   .exec();
+
     res.send({ links: query.links('/posts', total), total, posts });
 
     // const posts = await PostModel.find();

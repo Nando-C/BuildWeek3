@@ -18,7 +18,7 @@ const PostSchema = new Schema(
 );
 
 PostSchema.static('findPostUser', async function (id) {
-  const post = await this.findById(id).populate('Profile');
+  const post = await this.findById(id).populate('user');
   return post;
 });
 
@@ -28,7 +28,7 @@ PostSchema.static('findPostUser', async function (query) {
     .skip(query.options.skip)
     .limit(query.options.limit)
     .sort(query.options.sort)
-    .populate('Profile');
+    .populate('user');
   return { total, posts };
 });
 
