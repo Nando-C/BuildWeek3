@@ -3,6 +3,8 @@ import ProfileModel from './schema.js'
 import createError from 'http-errors'
 import q2m from 'query-to-mongo'
 import { uploadOnCloudinary } from '../../settings/cloudinary.js'
+import { generatePDFReadableStream } from '../lib/pdf/index.js'
+import { pipeline } from 'stream'
 
 const profilesRouter = express.Router()
 
@@ -110,4 +112,28 @@ profilesRouter.post('/:profileId/picture', uploadOnCloudinary.single('image'), a
     }
 })
 
+// ===============  UPLOADS IMAGE TO profile =======================
+profilesRouter.get('/:profileId/CV', async (req, res, next) => {
+    try {
+        const profileId = req.params.profileId
+        const profile = await ProfileModel.findById(profileId)
+
+        if(profile) {
+
+            res.setHeader("Content-Disposition", `attachment; filename=${req.body.name}_${req.body.surname}_CV.pdf`)
+
+            const source = await generatePDFReadableStream(profile)
+            const destination = res
+            
+            pipeline(source, destination, err => {
+                if(err) next(err)
+            })
+        } else {
+            next(createError(404, `Profile with _id ${profileId} Not Found!`))
+        }
+    } catch (error) {
+        console.log(error)
+        next(createError(500, `An Error ocurred while generating pdf CV for profile with _id ${profileId}`))
+    }
+})
 export default profilesRouter
