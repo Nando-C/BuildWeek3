@@ -9,12 +9,27 @@ const PostSchema = new Schema(
       required: true,
     },
 
-    // user: [{ type: Schema.Types.objectId, require: true, ref: 'Profile' }],
-    //reference to image same way
+    user: [{ type: Schema.Types.ObjectId, required: true, ref: 'Profile' }],
+    image: { type: String, default: 'https://picsum.photos/200/300' },
   },
   {
     timestamps: true, // adding createdAt and modifiedAt automatically
   }
 );
+
+PostSchema.static('findPostUser', async function (id) {
+  const post = await this.findById(id).populate('user');
+  return post;
+});
+
+PostSchema.static('findPostUser', async function (query) {
+  const total = await this.countDocuments(query.criteria);
+  const posts = await this.find(query.criteria, query.options.fields)
+    .skip(query.options.skip)
+    .limit(query.options.limit)
+    .sort(query.options.sort)
+    .populate('user');
+  return { total, posts };
+});
 
 export default model('Post', PostSchema); // bounded to "Posts" collection

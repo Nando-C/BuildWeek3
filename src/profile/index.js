@@ -33,7 +33,7 @@ profilesRouter.get('/', async (req, res, next) => {
 
         const { total, profiles } = await ProfileModel.findProfiles(query)
 
-        res.send({ links: query.links('/profiles', total), total, profiles })
+        res.send({ links: query.links('/profile', total), total, profiles })
     } catch (error) {
         next(createError(500, "An Error ocurred while getting the list of profiles"))
     }
