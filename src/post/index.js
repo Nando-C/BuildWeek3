@@ -1,10 +1,44 @@
 import express, { query } from 'express';
 import createError from 'http-errors';
 import q2m from 'query-to-mongo';
+import { uploadOnCloudinary } from '../../settings/cloudinary.js';
 
 import PostModel from './schema.js';
 
 const postRouter = express.Router();
+
+postRouter.post(
+  '/:postId/picture',
+  uploadOnCloudinary.single('image'),
+  async (req, res, next) => {
+    try {
+      const postId = req.params.postId;
+      const postUpdatePicture = await PostModel.findByIdAndUpdate(
+        postId,
+        { image: req.file.path },
+        { new: true }
+      );
+      const newPicture = await postUpdatePicture.save();
+      if (newPicture) {
+        res.send(newPicture);
+      } else {
+        next(createError(404, `post with _id:${postId} not found!`));
+      }
+    } catch (error) {
+      if (error.name === 'ValidationError') {
+        next(createError(400, error));
+      } else {
+        console.log(error);
+        next(
+          createError(
+            500,
+            `Error occured while uploading new image with _id${req.params.postId}`
+          )
+        );
+      }
+    }
+  }
+);
 
 postRouter.post('/', async (req, res, next) => {
   try {
@@ -38,10 +72,10 @@ postRouter.get('/', async (req, res, next) => {
 postRouter.get('/:postId', async (req, res, next) => {
   try {
     const postId = req.params.postId;
-    const post = await PostModel.findById(postId);
+    const posts = await PostModel.findById(postId);
 
     if (posts) {
-      res.send.apply(posts);
+      res.send(posts);
     } else {
       next(createError(404, `post with id ${postId} not found`));
     }

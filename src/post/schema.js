@@ -10,7 +10,7 @@ const PostSchema = new Schema(
     },
 
     user: [{ type: Schema.Types.ObjectId, require: true, ref: 'Profile' }],
-    //reference to image same way
+    image: { type: String, default: 'https://picsum.photos/200/300' },
   },
   {
     timestamps: true, // adding createdAt and modifiedAt automatically
