@@ -10,7 +10,8 @@ const experienceRouter = express.Router()
 // ===============  CREATES NEW PROFILE =======================
 experienceRouter.post('/:userName/experiences', async (req, res, next) => {
     try {
-        const newExperience = new ExperienceModel(req.body)
+
+        const newExperience = new ExperienceModel({...req.body, username: req.params.userName})
         const { _id } = await newExperience.save()
 
         res.status(201).send({ _id })
@@ -28,22 +29,41 @@ experienceRouter.post('/:userName/experiences', async (req, res, next) => {
 });
 
 // ===============  RETURNS PROFILE LIST =======================
-experienceRouter.get('/:userName/experiences', async (req, res, next) => {
+
+experienceRouter.get("/:userName/experiences", async (req, res, next) => {
     try {
-        const query = q2m(req.query)
-
-        const { total, experiences } = await ExperienceModel.findExperiences(query)
-
-        res.send({ links: query.links('/experiences', total), total, experiences })
+  
+      const userName = req.params.userName
+  
+      console.log(userName)
+  
+      const userSearch = String(userName)
+  
+      console.log(userSearch)
+  
+      const expByUser = await ExperienceModel.find({ username: { $in: userSearch }}, 
+      function(err, result) {
+        if (err) {
+          res.send(err);
+        }
+        })
+  
+      if (expByUser) {
+        console.log(expByUser)
+        res.send(expByUser)
+      } else {
+        next(createError(404, `No experiences found for user: ${userName}.`))
+      }
     } catch (error) {
-        next(createError(500, "An Error ocurred while getting the list of profiles"))
+      next(createError(500, "An error occurred while getting experiences"))
     }
-})
+  })
 
 // ===============  RETURNS SINGLE PROFILE =======================
 experienceRouter.get('/:userName/experiences/:expId', async (req, res, next) => {
     try {
         const expId = req.params.expId
+        
         const experience = await ExperienceModel.findById(expId)
 
         if(experience) {
