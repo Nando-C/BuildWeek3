@@ -64,10 +64,18 @@ export const generatePDFReadableStream = async (profile, expUser) => {
             },
             {
                 text: `Experience`,
-                style: 'subheader',
+                style: 'header',
             },
-            expUser.map(exp => `Role: ${exp.role}\nCompany: ${exp.company}\nStart date: ${exp.startDate}\nEnd date: ${exp.endDate}\nDescription: ${exp.description}\nArea: ${exp.area}\n\n`)
-            
+            expUser.map((exp) => (
+                `
+                Role: ${exp.role}\n
+                Company: ${exp.company}\n
+                Start date: ${exp.startDate}\n
+                End date: ${exp.endDate}\n
+                Description: ${exp.description}\n
+                Area: ${exp.area}\n
+                `)
+            )
         ],
         styles: {
             header: {
