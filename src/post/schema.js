@@ -4,10 +4,7 @@ const { Schema, model } = mongoose;
 
 const PostSchema = new Schema(
   {
-    _id: {
-      type: String,
-      required: true
-    },
+  
     body: {
       type: String,
       required: true,

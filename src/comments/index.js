@@ -11,10 +11,8 @@ commentRouter.post('/:postId/comments', async (req, res, next) => {
     try {
 
         const postId = req.params.postId;
-        console.log(postId)
         const post = await PostModel.findById(postId);
         if (post) {
-            console.log(Post)
             const newComment = new CommentModel(req.body)
             const { _id } = await newComment.save()
             post.comments.push(newComment_id)
@@ -23,6 +21,7 @@ commentRouter.post('/:postId/comments', async (req, res, next) => {
             next(createError(404, `post with id ${postId} not found`))
         }
     } catch (error) {
+        console.log(error);
         if (error.name === "validationError") {
             next(createError(400, error))
         } else {
@@ -32,7 +31,7 @@ commentRouter.post('/:postId/comments', async (req, res, next) => {
     }
 })
 
-commentRouter.put('/', async (req, res, next) => {
+commentRouter.put('/:postId/comments', async (req, res, next) => {
     try {
 
     }
