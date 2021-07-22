@@ -8,9 +8,14 @@ const PostSchema = new Schema(
       type: String,
       required: true,
     },
-
-    user: [{ type: Schema.Types.ObjectId, required: true, ref: 'Profile' }],
-    image: { type: String, default: 'https://picsum.photos/200/300' },
+    user: { 
+      type: Schema.Types.ObjectId, 
+      required: true, 
+      ref: 'Profile' 
+    },
+    image: { 
+      type: String, 
+      default: 'https://picsum.photos/200/300' },
   },
   {
     timestamps: true, // adding createdAt and modifiedAt automatically
