@@ -22,7 +22,7 @@ server.use(express.json());
 server.use('/profile', profilesRouter)
 server.use('/posts', postRouter)
 server.use('/profile', experiencesRouter)
-server.use('/posts', commentRouter);
+server.use('/comments', commentRouter);
 
 // ===================== ERROR HANDLERS ==========================
 server.use(notFoundMiddleware);

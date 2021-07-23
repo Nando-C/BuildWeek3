@@ -4,12 +4,12 @@ const { Schema, model } = mongoose;
 
 const PostSchema = new Schema(
   {
-  
-    body: {
+
+    text: {
       type: String,
-      required: true,
+      required: true
     },
-    user: [{ type: Schema.Types.ObjectId, required: true, ref: 'Profile' }],
+    user: { type: Schema.Types.ObjectId, required: true, ref: 'Profile' },
     image: { type: String, default: 'https://picsum.photos/200/300' },
     likedBy: [],
     comments: [],

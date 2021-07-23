@@ -5,12 +5,14 @@ const { Schema, model } = mongoose;
 
 const CommentSchema = new Schema(
     {
-        post_id: [],
         commentAuthor_id: {
+            type: String,
+
+        },
+        postID: {
             type: String,
             required: true
         },
-       
         body: {
             type: String,
             required: true
@@ -18,11 +20,11 @@ const CommentSchema = new Schema(
         likedBy: [],
         createdAt: {
             type: Date,
-            required: true
+
         },
         updatedAt: {
             type: Date,
-            required: true
+
         },
 
     }
