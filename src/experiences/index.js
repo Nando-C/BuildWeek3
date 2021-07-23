@@ -102,25 +102,46 @@ experienceRouter.get("/:userName/experiences", async (req, res, next) => {
       try {
         csv = parse(experiences, opts);
         console.log(csv)
+
+        if(csv) {
+
+          res.setHeader("Content-Disposition", `attachment; filename=${userSearch}-csv.csv`)
+          res.set("Content-Type", "text/csv")
+          res.status(200).send(csv)
+
+          const source = csv
+          const destination = res
+          
+          pipeline(source, destination, err => {
+              if(err) next(err)
+          })
+      } else {
+          next(createError(404, `CSV for ${userSearch} Not Found!`))
+      }
       } catch (err) {
         return res.status(500).json({ err });
       }
       // const dateTime = moment().format('YYYYMMDDhhmmss');
-      const filePath = path.join(__dirname, `../lib/csv/${userSearch}-csv.csv`)
-      fs.writeFile(filePath, csv, function (err) {
-        if (err) {
-          return res.json(err).status(500);
-        }
-        else {
+      // const filePath = path.join(__dirname, `../lib/csv/${userSearch}-csv.csv`)
+      // fs.writeFile(filePath, csv, function (err) {
+      //   if (err) {
+      //     return res.json(err).status(500);
+      //   }
+      //   else {
           // setTimeout(function () {
           //   fs.unlinkSync(filePath); // delete this file after 30 seconds
           // }, 30000)
-          return res.json(`../lib/csv/${userSearch}-csv.csv`);
-        }
+          // return res.json(`../lib/csv/${userSearch}-csv.csv`);
+        // }
 
-        })
+        // })
 
-      }})
+        
+    }
+
+  })
+
+      
          
   
   //     if (expByUser) {
@@ -279,4 +300,46 @@ experienceRouter.post('/:userName/experiences/:expId/picture', uploadOnCloudinar
 
 
 export default experienceRouter
+
+
+
+// const filePath = path.join(__dirname, `../lib/csv/${userSearch}-csv.csv`)
+// fs.writeFile(filePath, csv, function (err) {
+//   if (err) {
+//     return res.json(err).status(500);
+//   }
+//   else {
+//     // setTimeout(function () {
+//     //   fs.unlinkSync(filePath); // delete this file after 30 seconds
+//     // }, 30000)
+//     // return res.json(`../lib/csv/${userSearch}-csv.csv`);
+//   // }
+
+//   // })
+
+//   if(csv) {
+
+//     res.setHeader("Content-Disposition", `attachment; filename=${userSearch}-csv.csv`)
+
+//     const source = fs.readFile('/Users/joe/test.txt', 'utf8' , (err, data) => {
+//       if (err) {
+//         console.error(err)
+//         return
+//       }
+//       console.log(data)
+//     })
+
+//     const destination = res
+    
+//     pipeline(source, destination, err => {
+//         if(err) next(err)
+//     })
+// } else {
+//     next(createError(404, `CSV for ${userSearch} Not Found!`))
+// }
+// }
+
+// })
+
+// }})
 
