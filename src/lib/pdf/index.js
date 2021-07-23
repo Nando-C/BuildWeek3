@@ -2,7 +2,7 @@ import PdfPrinter from 'pdfmake'
 import striptags from 'striptags'
 import axios from 'axios'
 
-export const generatePDFReadableStream = async (profile) => {
+export const generatePDFReadableStream = async (profile, expUser) => {
     const fonts = {
         Roboto: {
             normal: "Helvetica",
@@ -62,12 +62,20 @@ export const generatePDFReadableStream = async (profile) => {
                 },
                 layout: 'noBorders'
             },
-            // {
-            //     text: `experience`,
-            //     style: 'subheader',
-            // },
-            // experience.map(rev => `Comment: "${rev.comment}"\nRate: ${rev.rate}\nCreated: ${rev.createdAt}\n\n`)
-            
+            {
+                text: `Experience`,
+                style: 'header',
+            },
+            expUser.map((exp) => (
+                `
+                Role: ${exp.role}\n
+                Company: ${exp.company}\n
+                Start date: ${exp.startDate}\n
+                End date: ${exp.endDate}\n
+                Description: ${exp.description}\n
+                Area: ${exp.area}\n
+                `)
+            )
         ],
         styles: {
             header: {

@@ -1,5 +1,6 @@
 import express from 'express'
 import ProfileModel from './schema.js'
+import ExperienceModel from '../experiences/schema.js'
 import createError from 'http-errors'
 import q2m from 'query-to-mongo'
 import { uploadOnCloudinary } from '../../settings/cloudinary.js'
@@ -90,7 +91,7 @@ profilesRouter.delete('/:profileId', async (req, res, next) => {
     }
 })
 
-// ===============  UPLOADS IMAGE TO profile =======================
+// ===============  UPLOADS IMAGE TO PROFILE =======================
 profilesRouter.post('/:profileId/picture', uploadOnCloudinary.single('image'), async (req, res,next) => {
     try {
         const profileId = req.params.profileId
@@ -112,17 +113,19 @@ profilesRouter.post('/:profileId/picture', uploadOnCloudinary.single('image'), a
     }
 })
 
-// ===============  UPLOADS IMAGE TO profile =======================
+// ===============  GENERATES CV PDF FROM PROFILE =======================
 profilesRouter.get('/:profileId/CV', async (req, res, next) => {
     try {
         const profileId = req.params.profileId
         const profile = await ProfileModel.findById(profileId)
+        const expUser = await ExperienceModel.find({ username: profileId })
 
         if(profile) {
-
-            res.setHeader("Content-Disposition", `attachment; filename=${req.body.name}_${req.body.surname}_CV.pdf`)
-
-            const source = await generatePDFReadableStream(profile)
+            
+            res.setHeader("Content-Disposition", `attachment; filename=${profile.name}_${profile.surname}_CV.pdf`)
+            
+            const source = await generatePDFReadableStream(profile, expUser)
+            
             const destination = res
             
             pipeline(source, destination, err => {
