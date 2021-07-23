@@ -4,9 +4,10 @@ const { Schema, model } = mongoose;
 
 const PostSchema = new Schema(
   {
+
     text: {
       type: String,
-      required: true,
+      required: true
     },
     user: { 
       type: Schema.Types.ObjectId, 
@@ -15,7 +16,10 @@ const PostSchema = new Schema(
     },
     image: { 
       type: String, 
-      default: 'https://picsum.photos/200/300' },
+      default: 'https://picsum.photos/200/300' 
+    },
+    likedBy: [],
+    comments: [],
   },
   {
     timestamps: true, // adding createdAt and modifiedAt automatically
