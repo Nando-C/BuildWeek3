@@ -63,11 +63,7 @@ commentRouter.delete('/:postId/:commentId/delete', async (req, res, next) => { /
         const post = await PostModel.findById(postId)
         const comment = await CommentModel.findById(commentId)
         if (post && comment) {
-            // console.log(post.comments)
-            // const eggs = PostModel.findOneAndDelete({ comments: commentId })
-            // console.log(eggs)
-            // console.log(post.comments)
-            //<------------------------------------- this bit no worky?
+            await PostModel.findByIdAndUpdate(postId, { '$pull': { "comments": commentId } })
             await CommentModel.findByIdAndDelete(commentId)
             res.status(204).send(`deleted`)
         } else {
@@ -108,9 +104,9 @@ commentRouter.get('/:postId/comments', async (req, res, next) => { //get all com
     try {
         const postId = req.params.postId
         const comments = await CommentModel.findById(postId)
-
-        console.log(comments)
         console.log(postId)
+        console.log(comments)
+
         if (postId && comments) {
             res.status(200).send(comments)
         } else {
