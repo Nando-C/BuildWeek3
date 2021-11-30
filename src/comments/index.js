@@ -63,11 +63,7 @@ commentRouter.delete('/:postId/:commentId/delete', async (req, res, next) => { /
         const post = await PostModel.findById(postId)
         const comment = await CommentModel.findById(commentId)
         if (post && comment) {
-            // console.log(post.comments)
-            // const eggs = PostModel.findOneAndDelete({ comments: commentId })
-            // console.log(eggs)
-            // console.log(post.comments)
-            //<------------------------------------- this bit no worky?
+            await PostModel.findByIdAndUpdate(postId, { '$pull': { "comments": commentId } })
             await CommentModel.findByIdAndDelete(commentId)
             res.status(204).send(`deleted`)
         } else {
@@ -86,7 +82,6 @@ commentRouter.delete('/:postId/:commentId/delete', async (req, res, next) => { /
 
 commentRouter.get('/:commentId', async (req, res, next) => { //get single comment
     try {
-
         const commentId = req.params.commentId
         const comment = await CommentModel.findById(commentId)
         if (comment) {
@@ -107,15 +102,22 @@ commentRouter.get('/:commentId', async (req, res, next) => { //get single commen
 commentRouter.get('/:postId/comments', async (req, res, next) => { //get all comment
     try {
         const postId = req.params.postId
-        const comments = await CommentModel.findById(postId)
+        const post = await PostModel.findById(postId)
+        const commentArr = post.comments
+        commentArr.map(async(com) => await CommentModel.findById(com))
+        // const content = await CommentModel.findById(post.comments[0])
+        // const contentArr = post.comments.forEach(async (element) => { await CommentModel.findById(element)})
+        
+        res.send(commentArr);
+        // const comments = await CommentModel.findById(postId)
+        // console.log(postId)
+        // console.log(comments)
 
-        console.log(comments)
-        console.log(postId)
-        if (postId && comments) {
-            res.status(200).send(comments)
-        } else {
-            next(createError(404, `comments for post - ${postId} - cannot be found`))
-        }
+        // if (postId && comments) {
+        //     res.status(200).send(comments)
+        // } else {
+        //     next(createError(404, `comments for post - ${postId} - cannot be found`))
+        // }
     } catch (error) {
         if (error.name === "validationError") {
             next(createError(400, error))
