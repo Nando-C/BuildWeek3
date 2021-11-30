@@ -19,7 +19,7 @@ const PostSchema = new Schema(
       default: 'https://picsum.photos/200/300' 
     },
     likedBy: [],
-    comments: [],
+    comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
   },
   {
     timestamps: true, // adding createdAt and modifiedAt automatically

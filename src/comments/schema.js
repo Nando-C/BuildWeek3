@@ -18,15 +18,9 @@ const CommentSchema = new Schema(
             required: true
         },
         likedBy: [],
-        createdAt: {
-            type: Date,
-
-        },
-        updatedAt: {
-            type: Date,
-
-        },
-
+    },
+    {
+        timestamps: true,
     }
 )
 
