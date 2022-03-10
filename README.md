@@ -198,23 +198,27 @@ POST Model:
 ### Posts
 
 - GET https://baseURL-api/posts/
+
   Retrieve posts
 
 - POST https://baseURL-api/posts/
 
-Creates a new post
+  Creates a new post
 
 - GET https://baseURL-api/posts/{postId}
 
   Retrieves the specified post
 
 - PUT https://baseURL-api/posts/{postId}
+
   Edit a given post
 
 - DELETE https://baseURL-api/posts/{postId}
+
   Removes a post
 
 - POST https://baseURL-api/posts/{postId}
+
   Add an image to the post under the name of "post"
 
 <p align="right">(<a href="#top">back to top</a>)</p>
