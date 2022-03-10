@@ -197,7 +197,7 @@ POST Model:
 
 ### Posts
 
-- GET https://baseURL-api/posts/
+- GET baseURL-api/posts/
 
   -> Retrieve posts
 
