@@ -38,9 +38,9 @@
     </li>
     <li><a href="#api">Api</a>
      <ul>
-        <li><a href="#profile-end-points">Profiles</a></li>
-        <li><a href="#experience-end-points">Experiences</a></li>
-        <li><a href="#post-end-points">Posts</a></li>
+        <li><a href="#profiles">Profiles</a></li>
+        <li><a href="#experiences">Experiences</a></li>
+        <li><a href="#posts">Posts</a></li>
       </ul>
     </li>
     <li><a href="#contact">Contact</a></li>
@@ -151,53 +151,66 @@ POST Model:
 ### Profiles
 
 - GET https://baseURL-api/profile/
-  Retrieves list of profiles
+
+  -> Retrieves list of profiles
 
 - GET https://baseURL-api/profile/{userId}
-  Retrieves the profile with userId = {userId}
+
+  -> Retrieves the profile with userId = {userId}
 
 - POST https://baseURL-api/profile/
-  Create the user profile with all his details
+
+  -> Create the user profile with all his details
 
 - PUT https://baseURL-api/profile/
-  Update current user profile details
+
+  -> Update current user profile details
 
 - POST https://baseURL-api/profile/{userId}/picture
-  Replace user profile picture (name = profile)
+
+  -> Replace user profile picture (name = profile)
 
 - GET https://baseURL-api/profile/{userId}/CV
-  Generates and download a PDF with the CV of the user (details, picture, experiences)
+
+  -> Generates and download a PDF with the CV of the user (details, picture, experiences)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Experience
 
 - GET https://baseURL-api/profile/userName/experiences
-  Get user experiences
+
+  -> Get user experiences
 
 - POST https://baseURL-api/profile/userName/experiences
-  Create an experience.
+
+  -> Create an experience.
 
 - GET https://baseURL-api/profile/userName/experiences/:expId
-  Get a specific experience
+
+  -> Get a specific experience
 
 - PUT https://baseURL-api/profile/userName/experiences/:expId
-  Get a specific experience
+
+  -> Get a specific experience
 
 - DELETE https://baseURL-api/profile/userName/experiences/:expId
-  Get a specific experience
+
+  -> Get a specific experience
 
 - POST https://baseURL-api/profile/userName/experiences/:expId/picture
-  Change the experience picture
+
+  -> Change the experience picture
 
 - GET https://baseURL-api/profile/userName/experiences/CSV
-  Download the experiences as a CSV
+
+  -> Download the experiences as a CSV
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Posts
 
-- GET baseURL-api/posts/
+- GET https://baseURL-api/posts/
 
   -> Retrieve posts
 
