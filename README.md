@@ -162,9 +162,9 @@ POST Model:
 
   -> Create the user profile with all his details
 
-- PUT https://baseURL-api/profile/
+- PUT https://baseURL-api/profile/{userId}
 
-  -> Update current user profile details
+  -> Updates current user profile details
 
 - POST https://baseURL-api/profile/{userId}/picture
 
@@ -180,25 +180,25 @@ POST Model:
 
 - GET https://baseURL-api/profile/userName/experiences
 
-  -> Get user experiences
+  -> Retrieves list of experiences
 
 - POST https://baseURL-api/profile/userName/experiences
 
   -> Create an experience.
 
-- GET https://baseURL-api/profile/userName/experiences/:expId
+- GET https://baseURL-api/profile/userName/experiences/{expId}
 
-  -> Get a specific experience
+  -> Retrieves a specific experience
 
-- PUT https://baseURL-api/profile/userName/experiences/:expId
+- PUT https://baseURL-api/profile/userName/experiences/{expId}
 
-  -> Get a specific experience
+  -> Updates a specific experience
 
-- DELETE https://baseURL-api/profile/userName/experiences/:expId
+- DELETE https://baseURL-api/profile/userName/experiences/{expId}
 
-  -> Get a specific experience
+  -> Removes a specific experience
 
-- POST https://baseURL-api/profile/userName/experiences/:expId/picture
+- POST https://baseURL-api/profile/userName/experiences/{expId}/picture
 
   -> Change the experience picture
 
@@ -230,9 +230,9 @@ POST Model:
 
   -> Removes a post
 
-- POST https://baseURL-api/posts/{postId}
+- POST https://baseURL-api/posts/{postId}/picture
 
-  -> Add an image to the post under the name of "post"
+  -> Adds an image to the post
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
