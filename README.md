@@ -1,27 +1,82 @@
-# BuildWeek3
-This week your team is in charge of building the LinkedIn App Backend.
+<div id="top"></div>
 
-Read carefully the instructions, divide them in tasks, weigth them and assign them.
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/Nando-C/Buildweek2">
+    <img src="assets/linkedIn-logo.png" alt="Logo" height="100">
+  </a>
 
-Create a Trello board for the management.
+<h3 align="center">LinkedIn - Clone -> [Back-End]</h3>
 
-Create the GitHub repo for the project and assign to everyone the right to push the code.
+  <p align="center">
+    A project that clones LinkedIn, developed during Strive School's Full Stack program!
+    <br />
+    <br />
+    <a href="https://my-linkedin-benchmarkm6.vercel.app/">View Demo</a>
+    <!-- ·
+    <a href="https://github.com/Nando-C/Buildweek2/issues">Report Bug</a> -->
+  </p>
+</div>
 
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li><a href="#models">Models</a>
+     <ul>
+        <li><a href="#profile-">Profile</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#post">Post</a></li>
+      </ul>
+    </li>
+    <li><a href="#api">Api</a>
+     <ul>
+        <li><a href="#profiles">Profiles</a></li>
+        <li><a href="#experiences">Experiences</a></li>
+        <li><a href="#posts">Posts</a></li>
+      </ul>
+    </li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
 
+<!-- ABOUT THE PROJECT -->
 
-The project should use the following stack:
+## About The Project
 
+<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
+This is the Back-End for a LinkedIn clone project, created as part of the Full Stack Master Camp at Strive School.
+Developed in 4 days by a distributed team of 3 students.
 
-Mongo or Postgres ==> DB
-ExpressJS ==> API
-ReactJS ==> Frontend
-NodeJS ==> Server
-Use Mongoose or Sequelize/SQL
-If you choose mongoose you can embed documents or use id's as ref to populate.
+This repo is connected to a Front-End, which was develped with a different team and can be found here: [LinkedIn's FrontEnd](https://github.com/Nando-C/BuildWeek2)
 
-# MODELS #
-    PROFILE Model:
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+### Built With
+
+- [Node.js](https://nodejs.org/)
+- [Express.js](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [Cloudinary](https://cloudinary.com)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- MODELS EXAMPLES -->
+
+## Models
+
+### Profile
+
+```js
+PROFILE Model:
     {
         "_id": "5d84937322b7b54d848eb41b", //server generated
         "name": "Diego",
@@ -30,16 +85,21 @@ If you choose mongoose you can embed documents or use id's as ref to populate.
         "bio": "SW ENG",
         "title": "COO @ Strive School",
         "area": "Berlin",
-        "image": ..., //server generated on upload, set a default here
+        "image": ..., //server generates a default image on upload
         "username": "admin",
         "createdAt": "2019-09-20T08:53:07.094Z", //server generated
         "updatedAt": "2019-09-20T09:00:46.977Z", //server generated
     }
-   
+```
 
-    EXPERIENCE Model:
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+### Experience
+
+```js
+EXPERIENCE Model:
     {
-        "_id": "5d925e677360c41e0046d1f5",  //server generated
+        "_id": "5d925e677360c41e0046d1f5", //server generated
         "role": "CTO",
         "company": "Strive School",
         "startDate": "2019-06-16T22:00:00.000Z",
@@ -47,18 +107,21 @@ If you choose mongoose you can embed documents or use id's as ref to populate.
         "description": "Doing stuff here and there",
         "area": "Berlin",
         "username": "admin",
-        "createdAt": "2019-09-30T19:58:31.019Z",  //server generated
-        "updatedAt": "2019-09-30T19:58:31.019Z",  //server generated
-        "image": ... //server generated on upload, set a default here
+        "createdAt": "2019-09-30T19:58:31.019Z", //server generated
+        "updatedAt": "2019-09-30T19:58:31.019Z", //server generated
+        "image": ... //server generates a default image on upload
     }
+```
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
+### Post
 
-
-    POST Model:
+```js
+POST Model:
     {
         "_id": "5d93ac84b86e220017e76ae1", //server generated
-        "text": "this is a text 12312 1 3 1",  <<--- THIS IS THE ONLY ONE YOU'LL BE SENDING!!!
+        "text": "this is a text 12312 1 3 1", // THIS IS THE ONLY ONE YOU'LL BE SENDING!!!
         "username": "admin",
         "user": {
             "_id": "5d84937322b7b54d848eb41b", //server generated
@@ -68,123 +131,115 @@ If you choose mongoose you can embed documents or use id's as ref to populate.
             "bio": "SW ENG",
             "title": "COO @ Strive School",
             "area": "Berlin",
-            "image": ..., //server generated on upload, set a default here
+            "image": ..., //server generates a default image on upload
             "username": "admin",
             "createdAt": "2019-09-20T08:53:07.094Z", //server generated
             "updatedAt": "2019-09-20T09:00:46.977Z", //server generated
-        }
+        },
         "createdAt": "2019-10-01T19:44:04.496Z", //server generated
         "updatedAt": "2019-10-01T19:44:04.496Z", //server generated
-        "image": ... //server generated on upload, set a default here
+        "image": ... //server generates a default image on upload
     }
+```
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
+<!-- API ENDPOINTS -->
 
+## API
 
+### Profiles
 
+- GET https://baseURL-api/profile/
 
-    # API #
-    PROFILES:
-    - GET https://yourapi.herokuapp.com/api/profile/
+  -> Retrieves list of profiles
 
-    Retrieves list of profiles
+- GET https://baseURL-api/profile/{userId}
 
-    - GET https://yourapi.herokuapp.com/api/profile/{userId}
+  -> Retrieves the profile of a given user
 
-    Retrieves the profile with userId = {userId}
+- POST https://baseURL-api/profile/
 
-    - POST https://yourapi.herokuapp.com/api/profile/
+  -> Create the user profile with all his details
 
-    Create the user profile with all his details
+- PUT https://baseURL-api/profile/{userId}
 
-    - PUT https://yourapi.herokuapp.com/api/profile/
+  -> Updates current user profile details
 
-    Update current user profile details
+- POST https://baseURL-api/profile/{userId}/picture
 
-    - POST https://yourapi.herokuapp.com/api/profile/{userId}/picture
+  -> Replaces the profile picture of a given user
 
-    Replace user profile picture (name = profile)
+- GET https://baseURL-api/profile/{userId}/CV
 
-    - GET https://yourapi.herokuapp.com/api/profile/{userId}/CV
+  -> Generates and download a PDF with the CV of the user (picture, details, experiences)
 
-    Generates and download a PDF with the CV of the user (details, picture, experiences)
+<p align="right">(<a href="#top">back to top</a>)</p>
 
+### Experience
 
+- GET https://baseURL-api/profile/userName/experiences
 
+  -> Retrieves list of experiences
 
+- POST https://baseURL-api/profile/userName/experiences
 
-    EXPERIENCE:
-    - GET https://yourapi.herokuapp.com/api/profile/userName/experiences
+  -> Create an experience.
 
-    Get user experiences
+- GET https://baseURL-api/profile/userName/experiences/{expId}
 
-    - POST https://yourapi.herokuapp.com/api/profile/userName/experiences
+  -> Retrieves a specific experience
 
-    Create an experience.
+- PUT https://baseURL-api/profile/userName/experiences/{expId}
 
-    - GET https://yourapi.herokuapp.com/api/profile/userName/experiences/:expId
+  -> Updates a specific experience
 
-    Get a specific experience
+- DELETE https://baseURL-api/profile/userName/experiences/{expId}
 
-    - PUT https://yourapi.herokuapp.com/api/profile/userName/experiences/:expId
+  -> Removes a specific experience
 
-    Get a specific experience
+- POST https://baseURL-api/profile/userName/experiences/{expId}/picture
 
-    - DELETE https://yourapi.herokuapp.com/api/profile/userName/experiences/:expId
+  -> Change the experience picture
 
-    Get a specific experience
+- GET https://baseURL-api/profile/userName/experiences/CSV
 
-    - POST https://yourapi.herokuapp.com/api/profile/userName/experiences/:expId/picture
+  -> Download the experiences as a CSV
 
-    Change the experience picture
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-    - GET https://yourapi.herokuapp.com/api/profile/userName/experiences/CSV
+### Posts
 
-    Download the experiences as a CSV
+- GET https://baseURL-api/posts/
 
+  -> Retrieve posts
 
+- POST https://baseURL-api/posts/
 
+  -> Creates a new post
 
+- GET https://baseURL-api/posts/{postId}
 
-    POSTS:
-    - GET https://yourapi.herokuapp.com/api/posts/
+  -> Retrieves the specified post
 
-    Retrieve posts
+- PUT https://baseURL-api/posts/{postId}
 
-    - POST https://yourapi.herokuapp.com/api/posts/
+  -> Updates a given post
 
-    Creates a new post
+- DELETE https://baseURL-api/posts/{postId}
 
-    - GET https://yourapi.herokuapp.com/api/posts/{postId}
+  -> Removes a given post
 
-    Retrieves the specified post
+- POST https://baseURL-api/posts/{postId}/picture
 
-    - PUT https://yourapi.herokuapp.com/api/posts/{postId}
+  -> Adds an image to the post
 
-    Edit a given post
+<p align="right">(<a href="#top">back to top</a>)</p>
 
-    - DELETE https://yourapi.herokuapp.com/api/posts/{postId}
+<!-- CONTACT -->
 
-    Removes a post
+## Contact
 
-    - POST https://yourapi.herokuapp.com/api/posts/{postId}
+[@Nando](https://hernando-crespo.vercel.app/) - Get in touch and let me know what do you think of this project! 😉
 
-    Add an image to the post under the name of "post"
-
-
-
-    #EXTRA: Find a way to return also the user with the posts, in order to have the Name / Picture to show it correcly on the frontend
-
-
-
-
-
-    # FRONTEND #
-    Start from a previous version and make it work with the current APIs
-
-
-
-
-
-    # FINALLY  #
-    Both frontend and backend MUST be deployed on Heroku/Vercel and made them available for the general public.
+<p align="right">(<a href="#top">back to top</a>)</p>
