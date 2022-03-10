@@ -85,7 +85,7 @@ PROFILE Model:
         "bio": "SW ENG",
         "title": "COO @ Strive School",
         "area": "Berlin",
-        "image": ..., //server generated on upload, set a default here
+        "image": ..., //server generates a default image on upload
         "username": "admin",
         "createdAt": "2019-09-20T08:53:07.094Z", //server generated
         "updatedAt": "2019-09-20T09:00:46.977Z", //server generated
@@ -109,7 +109,7 @@ EXPERIENCE Model:
         "username": "admin",
         "createdAt": "2019-09-30T19:58:31.019Z", //server generated
         "updatedAt": "2019-09-30T19:58:31.019Z", //server generated
-        "image": ... //server generated on upload, set a default here
+        "image": ... //server generates a default image on upload
     }
 ```
 
@@ -131,14 +131,14 @@ POST Model:
             "bio": "SW ENG",
             "title": "COO @ Strive School",
             "area": "Berlin",
-            "image": ..., //server generated on upload, set a default here
+            "image": ..., //server generates a default image on upload
             "username": "admin",
             "createdAt": "2019-09-20T08:53:07.094Z", //server generated
             "updatedAt": "2019-09-20T09:00:46.977Z", //server generated
         },
         "createdAt": "2019-10-01T19:44:04.496Z", //server generated
         "updatedAt": "2019-10-01T19:44:04.496Z", //server generated
-        "image": ... //server generated on upload, set a default here
+        "image": ... //server generates a default image on upload
     }
 ```
 
