@@ -156,7 +156,7 @@ POST Model:
 
 - GET https://baseURL-api/profile/{userId}
 
-  -> Retrieves the profile with userId = {userId}
+  -> Retrieves the profile of a given user
 
 - POST https://baseURL-api/profile/
 
@@ -168,11 +168,11 @@ POST Model:
 
 - POST https://baseURL-api/profile/{userId}/picture
 
-  -> Replace user profile picture (name = profile)
+  -> Replaces the profile picture of a given user
 
 - GET https://baseURL-api/profile/{userId}/CV
 
-  -> Generates and download a PDF with the CV of the user (details, picture, experiences)
+  -> Generates and download a PDF with the CV of the user (picture, details, experiences)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -224,11 +224,11 @@ POST Model:
 
 - PUT https://baseURL-api/posts/{postId}
 
-  -> Edit a given post
+  -> Updates a given post
 
 - DELETE https://baseURL-api/posts/{postId}
 
-  -> Removes a post
+  -> Removes a given post
 
 - POST https://baseURL-api/posts/{postId}/picture
 
