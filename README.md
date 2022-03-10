@@ -38,9 +38,9 @@
     </li>
     <li><a href="#api">Api</a>
      <ul>
-        <li><a href="#profile-end-points">Profile</a></li>
-        <li><a href="#experience-end-points">Experience</a></li>
-        <li><a href="#post-end-points">Post</a></li>
+        <li><a href="#profile-end-points">Profiles</a></li>
+        <li><a href="#experience-end-points">Experiences</a></li>
+        <li><a href="#post-end-points">Posts</a></li>
       </ul>
     </li>
     <li><a href="#contact">Contact</a></li>
