@@ -201,9 +201,11 @@ POST Model:
   Retrieve posts
 
 - POST https://baseURL-api/posts/
-  Creates a new post
+
+Creates a new post
 
 - GET https://baseURL-api/posts/{postId}
+
   Retrieves the specified post
 
 - PUT https://baseURL-api/posts/{postId}
