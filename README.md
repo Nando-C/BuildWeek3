@@ -135,7 +135,7 @@ POST Model:
             "username": "admin",
             "createdAt": "2019-09-20T08:53:07.094Z", //server generated
             "updatedAt": "2019-09-20T09:00:46.977Z", //server generated
-        }
+        },
         "createdAt": "2019-10-01T19:44:04.496Z", //server generated
         "updatedAt": "2019-10-01T19:44:04.496Z", //server generated
         "image": ... //server generated on upload, set a default here
