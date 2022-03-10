@@ -7,7 +7,7 @@
     <img src="assets/linkedIn-logo.png" alt="Logo" height="100">
   </a>
 
-<h3 align="center">LinkedIn - Clone</h3>
+<h3 align="center">LinkedIn - Clone -> [Back-End]</h3>
 
   <p align="center">
     A project that clones LinkedIn, developed during Strive School's Full Stack program!
